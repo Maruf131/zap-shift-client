@@ -15,7 +15,7 @@ const ClientLogoMarquee = () => {
       {/* Section Title */}
       <div className="text-center mb-10 px-4">
         <h2 className="text-3xl font-bold mb-2">
-          We've helped thousands of <span className="text-[#CAEB66]">sales teams</span>
+          We've helped thousands of <span className="text-primary">sales teams</span>
         </h2>
         <p className="text-gray-600 text-lg">
           Trusted by top companies who rely on our service every day.
