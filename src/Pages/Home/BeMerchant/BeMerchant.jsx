@@ -3,7 +3,7 @@ import location from '../../../assets/location.png'
 
 const BeMerchant = () => {
     return (
-        <div className=" lg:p-20 bg-[url(assets/be-a-merchant-bg.png)] bg-no-repeat bg-[#03373D] rounded-2xl mb-16">
+        <div data-aos="zoom-in" className=" lg:p-20 bg-[url(assets/be-a-merchant-bg.png)] bg-no-repeat bg-[#03373D] rounded-2xl mb-16">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <img
                     src={location}
