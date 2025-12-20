@@ -5,20 +5,26 @@ import useAuth from '../../../Hooks/useAuth';
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
-    const handleSignOut =()=>{
+    const handleSignOut = () => {
         logOut()
-        .then(result =>{
-            console.log(result.user);
-            
-        })
-        .catch(error=>{
-            console.error(error)
-        })
+            .then(result => {
+                console.log(result.user);
+
+            })
+            .catch(error => {
+                console.error(error)
+            })
     }
     const navItem = <>
         <li><NavLink to='/'>Home</NavLink></li>
         <li><NavLink to='/sendParcel'>Send Parcel</NavLink></li>
         <li><NavLink to='/coverage'>Coverage</NavLink></li>
+        {
+            user && <>
+                <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
+            </>
+        }
+
         <li><NavLink to='/about'>About</NavLink></li>
     </>
     return (

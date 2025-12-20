@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 
 export default function SendParcel() {
@@ -15,6 +16,7 @@ export default function SendParcel() {
     } = useForm();
 
     const serviceCenters = useLoaderData();
+    const axiosSecure = useAxiosSecure();
 
     const uniqueRegions = [...new Set(serviceCenters.map((w) => w.region))];
 
@@ -70,16 +72,14 @@ export default function SendParcel() {
                     <hr/>
 
                     <p>Base Price: <b>৳${basePrice}</b></p>
-                    ${
-                        extraWeightCost
-                            ? `<p>Extra Weight Charge: <b>৳${extraWeightCost}</b></p>`
-                            : ""
-                    }
-                    ${
-                        outsideDistrictCharge
-                            ? `<p>Outside District Charge: <b>৳${outsideDistrictCharge}</b></p>`
-                            : ""
-                    }
+                    ${extraWeightCost
+                    ? `<p>Extra Weight Charge: <b>৳${extraWeightCost}</b></p>`
+                    : ""
+                }
+                    ${outsideDistrictCharge
+                    ? `<p>Outside District Charge: <b>৳${outsideDistrictCharge}</b></p>`
+                    : ""
+                }
 
                     <hr/>
                     <p style="
@@ -100,6 +100,7 @@ export default function SendParcel() {
         }).then((result) => {
             if (result.isConfirmed) {
                 const parcelData = {
+                    ...data,
                     trackingId: `TRK-${Date.now()}`,
                     createdByEmail: user?.email,
 
@@ -107,23 +108,23 @@ export default function SendParcel() {
                     title: data.title,
                     weight: data.weight || null,
 
-                    sender: {
-                        name: data.senderName,
-                        contact: data.senderContact,
-                        region: data.senderRegion,
-                        district: data.senderDistrict,
-                        address: data.senderAddress,
-                        instruction: data.pickupInstruction,
-                    },
+                    // sender: {
+                    //     name: data.senderName,
+                    //     contact: data.senderContact,
+                    //     region: data.senderRegion,
+                    //     district: data.senderDistrict,
+                    //     address: data.senderAddress,
+                    //     instruction: data.pickupInstruction,
+                    // },
 
-                    receiver: {
-                        name: data.receiverName,
-                        contact: data.receiverContact,
-                        region: data.receiverRegion,
-                        district: data.receiverDistrict,
-                        address: data.receiverAddress,
-                        instruction: data.deliveryInstruction,
-                    },
+                    // receiver: {
+                    //     name: data.receiverName,
+                    //     contact: data.receiverContact,
+                    //     region: data.receiverRegion,
+                    //     district: data.receiverDistrict,
+                    //     address: data.receiverAddress,
+                    //     instruction: data.deliveryInstruction,
+                    // },
 
                     pricing: {
                         basePrice,
@@ -134,7 +135,6 @@ export default function SendParcel() {
 
                     paymentStatus: "unpaid",
                     status: "pending",
-
                     timeline: [
                         {
                             status: "parcel_created",
@@ -145,15 +145,23 @@ export default function SendParcel() {
                     createdAt: new Date().toISOString(),
                 };
 
-                console.log("FINAL PARCEL DATA:", parcelData);
 
-                Swal.fire({
-                    icon: "success",
-                    title: "Parcel Created",
-                    text: "Redirecting to payment...",
-                    timer: 2000,
-                    showConfirmButton: false,
-                });
+                axiosSecure.post('/parcels', parcelData)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Parcel Created",
+                                text: "Redirecting to payment...",
+                                timer: 2000,
+                                showConfirmButton: false,
+                            });
+                        }
+
+                    })
+
+
 
                 // later → navigate("/payment", { state: parcelData });
             }
