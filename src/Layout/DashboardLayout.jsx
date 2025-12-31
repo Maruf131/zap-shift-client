@@ -1,5 +1,7 @@
 import { NavLink, Outlet } from "react-router";
 import ProFastLogo from "../Pages/Shared/Logo/ProFastLogo";
+import { FaBoxOpen, FaMoneyCheckAlt, FaMapMarkedAlt, FaUserEdit, FaHome, FaMotorcycle, FaUserClock } from "react-icons/fa";
+
 
 
 const DashboardLayout = () => {
@@ -39,8 +41,52 @@ const DashboardLayout = () => {
                 <ul className="menu bg-base-200 min-h-full w-80 p-4">
                     {/* Sidebar content here */}
                     <ProFastLogo></ProFastLogo>
-                    <li><a>HOME</a></li>
-                    <li><NavLink to='/dashboard/myParcels'>My Parcels</NavLink></li>
+                    <li>
+                        <NavLink to="/">
+                            <FaHome className="inline mr-2" />
+                            HOME
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/myParcels">
+                            <FaBoxOpen className="inline mr-2" />
+                            My Parcels
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to="/dashboard/paymentHistory">
+                            <FaMoneyCheckAlt className="inline mr-2" />
+                            Payment History
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to="/dashboard/track">
+                            <FaMapMarkedAlt className="inline mr-2" />
+                            Track a Package
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to="/dashboard/profile">
+                            <FaUserEdit className="inline mr-2" />
+                            Update Profile
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/activeRiders">
+                            <FaMotorcycle className="inline mr-2" />
+                            Active Riders
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to="/dashboard/pendingRiders">
+                            <FaUserClock className="inline mr-2" />
+                            Pending Riders
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
         </div>

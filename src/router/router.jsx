@@ -9,6 +9,12 @@ import PrivateRoutes from "../routes/PrivateRoutes";
 import SendParcel from "../Pages/SendParcel/SendParcel";
 import DashboardLayout from "../Layout/DashboardLayout";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import TrackPackage from "../Pages/Dashboard/TrackPackage/TrackPackage";
+import BeARider from "../Pages/Dashboard/BeARider/BeARider";
+import PendingRiders from "../Pages/Dashboard/PendingRiders/PendingRiders";
+import ActiveRiders from "../Pages/Dashboard/ActiveRiders/ActiveRiders";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +28,11 @@ export const router = createBrowserRouter([
       {
         path: '/coverage',
         Component: Coverage,
+        loader: () => fetch('public/services.json')
+      },
+      {
+        path: '/beARider',
+        element: <PrivateRoutes><BeARider></BeARider></PrivateRoutes>,
         loader: () => fetch('public/services.json')
       },
       {
@@ -48,10 +59,30 @@ export const router = createBrowserRouter([
   {
     path: 'dashboard',
     element: <PrivateRoutes><DashboardLayout></DashboardLayout></PrivateRoutes>,
-    children:[
+    children: [
       {
         path: 'myParcels',
         Component: MyParcels
+      },
+      {
+        path: 'payment/:parcelId',
+        Component: Payment
+      },
+      {
+        path: 'paymentHistory',
+        Component: PaymentHistory
+      },
+      {
+        path: 'track',
+        Component: TrackPackage
+      },
+      {
+        path: 'pendingRiders',
+        Component: PendingRiders
+      },
+      {
+        path: 'activeRiders',
+        Component: ActiveRiders
       }
     ]
   }

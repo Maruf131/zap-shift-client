@@ -2,11 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useNavigate } from "react-router";
 
 
 const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure()
+    const navigate = useNavigate();
     const { data: parcels = [], refetch } = useQuery({
         queryKey: ['my-parcels', user.email],
         queryFn: async () => {
@@ -19,8 +21,9 @@ const MyParcels = () => {
         console.log("View parcel:", parcel);
     };
 
-    const onPay = (parcel) => {
-        console.log("Pay for parcel:", parcel);
+    const onPay = (id) => {
+        console.log("Pay for parcel:", id);
+        navigate(`/dashboard/payment/${id}`)
     };
 
     const handleDeleteParcel = async (id) => {
@@ -77,7 +80,6 @@ const MyParcels = () => {
                         <th>Created At</th>
                         <th>Cost</th>
                         <th>Payment</th>
-                        <th>Status</th>
                         <th className="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -127,13 +129,6 @@ const MyParcels = () => {
                                 </span>
                             </td>
 
-                            {/* Parcel Status */}
-                            <td>
-                                <span className="badge badge-info">
-                                    {parcel.status}
-                                </span>
-                            </td>
-
                             {/* Actions */}
                             <td className="text-center space-x-2">
                                 <button
@@ -145,7 +140,7 @@ const MyParcels = () => {
 
                                 {parcel.paymentStatus === "unpaid" && (
                                     <button
-                                        onClick={() => onPay(parcel)}
+                                        onClick={() => onPay(parcel._id)}
                                         className="btn btn-xs btn-success"
                                     >
                                         Pay
