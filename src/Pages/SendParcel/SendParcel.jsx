@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
@@ -17,6 +17,7 @@ export default function SendParcel() {
 
     const serviceCenters = useLoaderData();
     const axiosSecure = useAxiosSecure();
+    const navigate = useNavigate();
 
     const uniqueRegions = [...new Set(serviceCenters.map((w) => w.region))];
 
@@ -135,12 +136,13 @@ export default function SendParcel() {
 
                     paymentStatus: "unpaid",
                     status: "pending",
-                    timeline: [
-                        {
-                            status: "parcel_created",
-                            time: new Date().toISOString(),
-                        },
-                    ],
+                    delivery_status: 'not_collected',
+                    // timeline: [
+                    //     {
+                    //         status: "parcel_created",
+                    //         time: new Date().toISOString(),
+                    //     },
+                    // ],
 
                     createdAt: new Date().toISOString(),
                 };
@@ -158,7 +160,7 @@ export default function SendParcel() {
                                 showConfirmButton: false,
                             });
                         }
-
+                        navigate('/dashboard/myParcels')
                     })
 
 

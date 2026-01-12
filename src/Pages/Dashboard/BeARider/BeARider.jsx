@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-
 import { useState } from "react";
 import { useLoaderData } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 const BeARider = () => {
     const { user } = useAuth();
+    const [selectedRegion, setSelectedRegion] = useState("");
+    const axiosSecure = useAxiosSecure();
+
+    const serviceCenters = useLoaderData();
     const {
         register,
         handleSubmit,
@@ -16,10 +19,6 @@ const BeARider = () => {
         formState: { errors },
     } = useForm();
 
-    const [selectedRegion, setSelectedRegion] = useState("");
-    const axiosSecure = useAxiosSecure();
-
-    const serviceCenters = useLoaderData();
 
     const regions = [...new Set(serviceCenters.map((s) => s.region))];
     const districts = serviceCenters
@@ -48,9 +47,6 @@ const BeARider = () => {
                 }
             })
 
-
-
-        // Send to your backend here
         reset();
     };
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaEye, FaCheck, FaTimes } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const PendingRiders = () => {
     const [selectedRider, setSelectedRider] = useState(null);
@@ -20,7 +20,7 @@ const PendingRiders = () => {
         return <span className="loading loading-spinner loading-xl"></span>
     }
 
-    const handleDecision = async (id, action) => {
+    const handleDecision = async (id, action, email) => {
         const confirm = await Swal .fire({
             title: `${action === "approve" ? "Approve" : "Reject"} Application?`,
             icon: "warning",
@@ -35,8 +35,8 @@ const PendingRiders = () => {
             const status = action === "approve" ? "active" : "rejected"
             await axiosSecure.patch(`/riders/${id}/status`, {
                 status,
+                email
             });
-
             refetch();
 
             Swal.fire("Success", `Rider ${action}d successfully`, "success");

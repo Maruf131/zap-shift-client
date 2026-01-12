@@ -7,7 +7,7 @@ import useAuth from '../../../Hooks/useAuth';
 const Login = () => {
     const { signIn } = useAuth();
     const location = useLocation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const from = location.state?.from || '/';
     
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -46,7 +46,7 @@ const Login = () => {
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn bg-primary text-black font-extrabold mt-4">Login</button>
                         </fieldset>
-                        <p>New to this website? <Link className='underline text-yellow-200' to='/register'>Register</Link></p>
+                        <p>New to this website? <Link state={{from}} className='underline text-yellow-200' to='/register'>Register</Link></p>
                     </div>
                 </div>
             </form>

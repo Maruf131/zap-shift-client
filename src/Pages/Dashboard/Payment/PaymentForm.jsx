@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../Hooks/useAuth';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
 const PaymentForm = () => {
     const stripe = useStripe();
