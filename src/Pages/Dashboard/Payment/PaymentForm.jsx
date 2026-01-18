@@ -1,10 +1,11 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router';
+import { Await, Navigate, useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import useAuth from '../../../Hooks/useAuth';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import useTrackingLogger from '../../../Hooks/useTrackingLogger';
 
 const PaymentForm = () => {
     const stripe = useStripe();
@@ -12,6 +13,7 @@ const PaymentForm = () => {
     const { user } = useAuth();
     const { parcelId } = useParams();
     const axiosSecure = useAxiosSecure();
+    const { logTracking } = useTrackingLogger();
     const navigate = useNavigate()
     const [error, setError] = useState('')
 
@@ -101,6 +103,12 @@ const PaymentForm = () => {
                             title: 'Payment Successfully',
                             html: `<strong>Transaction ID:</strong> <code>${transactionId} </code>`,
                             confirmButtonText: 'Go to my parcels'
+                        })
+                        await logTracking({
+                            trackingId: parcelInfo.trackingId,
+                            status: "payment_done",
+                            details: `Paid by ${user.displayName}`,
+                            updated_by: user.email,
                         })
                         navigate('/dashboard/myParcels')
                     }

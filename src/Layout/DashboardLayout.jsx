@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 import ProFastLogo from "../Pages/Shared/Logo/ProFastLogo";
-import { FaBoxOpen, FaMoneyCheckAlt, FaMapMarkedAlt, FaUserEdit, FaHome, FaMotorcycle, FaUserClock, FaUserShield } from "react-icons/fa";
+import { FaBoxOpen, FaMoneyCheckAlt, FaMapMarkedAlt, FaUserEdit, FaHome, FaMotorcycle, FaUserClock, FaUserShield, FaTasks, FaCheckCircle, FaWallet } from "react-icons/fa";
 import useUserRole from "../Hooks/useUserRole";
 import { MdDeliveryDining } from "react-icons/md";
 
@@ -79,6 +79,28 @@ const DashboardLayout = () => {
                             Update Profile
                         </NavLink>
                     </li>
+                    {/* rider links  */}
+                    {!roleLoading && role === 'rider' && <>
+                        <li>
+                            <NavLink to="/dashboard/pending-deliveries">
+                                <FaTasks className="inline-block mr-2" />
+                                Pending Deliveries
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/completed-deliveries">
+                                <FaCheckCircle className="inline-block mr-2" />
+                                Completed Deliveries
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/my-earnings">
+                                <FaWallet className="inline-block mr-2" />
+                                My Earnings
+                            </NavLink>
+                        </li>
+                    </>}
+                    {/* admin links */}
                     {!roleLoading && role === 'admin' &&
                         <>
                             <li>

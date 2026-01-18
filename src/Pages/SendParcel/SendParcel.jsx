@@ -3,6 +3,7 @@ import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useTrackingLogger from "../../Hooks/useTrackingLogger";
 
 
 export default function SendParcel() {
@@ -18,6 +19,7 @@ export default function SendParcel() {
     const serviceCenters = useLoaderData();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
+    const { logTracking } = useTrackingLogger();
 
     const uniqueRegions = [...new Set(serviceCenters.map((w) => w.region))];
 
@@ -100,33 +102,15 @@ export default function SendParcel() {
             reverseButtons: true,
         }).then((result) => {
             if (result.isConfirmed) {
+                const trackingId = `TRK-${Date.now()}`;
                 const parcelData = {
                     ...data,
-                    trackingId: `TRK-${Date.now()}`,
+                    trackingId: trackingId,
                     createdByEmail: user?.email,
 
                     parcelType: data.parcelType,
                     title: data.title,
                     weight: data.weight || null,
-
-                    // sender: {
-                    //     name: data.senderName,
-                    //     contact: data.senderContact,
-                    //     region: data.senderRegion,
-                    //     district: data.senderDistrict,
-                    //     address: data.senderAddress,
-                    //     instruction: data.pickupInstruction,
-                    // },
-
-                    // receiver: {
-                    //     name: data.receiverName,
-                    //     contact: data.receiverContact,
-                    //     region: data.receiverRegion,
-                    //     district: data.receiverDistrict,
-                    //     address: data.receiverAddress,
-                    //     instruction: data.deliveryInstruction,
-                    // },
-
                     pricing: {
                         basePrice,
                         extraWeightCost,
@@ -137,19 +121,12 @@ export default function SendParcel() {
                     paymentStatus: "unpaid",
                     status: "pending",
                     delivery_status: 'not_collected',
-                    // timeline: [
-                    //     {
-                    //         status: "parcel_created",
-                    //         time: new Date().toISOString(),
-                    //     },
-                    // ],
-
                     createdAt: new Date().toISOString(),
                 };
 
 
                 axiosSecure.post('/parcels', parcelData)
-                    .then(res => {
+                    .then(async (res) => {
                         console.log(res.data);
                         if (res.data.insertedId) {
                             Swal.fire({
@@ -160,12 +137,15 @@ export default function SendParcel() {
                                 showConfirmButton: false,
                             });
                         }
+                        await logTracking({
+                            trackingId: parcelData.trackingId,
+                            status: "parcel_created",
+                            details: `Created by ${user.displayName}`,
+                            updated_by: user.email,
+                        })
                         navigate('/dashboard/myParcels')
                     })
 
-
-
-                // later → navigate("/payment", { state: parcelData });
             }
         });
     };
