@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
       {
         path: '/coverage',
         Component: Coverage,
-        loader: () => fetch('public/services.json')
+        loader: () => fetch('./services.json')
       },
       {
         path: 'forbidden',
@@ -46,12 +46,12 @@ export const router = createBrowserRouter([
       {
         path: '/beARider',
         element: <PrivateRoutes><BeARider></BeARider></PrivateRoutes>,
-        loader: () => fetch('public/services.json')
+        loader: () => fetch('./services.json')
       },
       {
         path: '/sendParcel',
         element: <PrivateRoutes><SendParcel></SendParcel></PrivateRoutes>,
-        loader: () => fetch('public/services.json')
+        loader: () => fetch('./services.json')
       }
     ]
   },

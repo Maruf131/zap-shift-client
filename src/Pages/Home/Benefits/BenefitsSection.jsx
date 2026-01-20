@@ -28,8 +28,8 @@ const BenefitsSection = () => {
         },
     ]
     return (
-        <section className="py-16">
-            <div className="max-w-6xl mx-auto px-4 space-y-8">
+        <section className="py-16 mx-2">
+            <div className="max-w-6xl mx-auto space-y-8">
 
                 {benefits.map((item) => (
                     <BenefitCard

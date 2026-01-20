@@ -11,7 +11,7 @@ const BeARider = () => {
     const [selectedRegion, setSelectedRegion] = useState("");
     const axiosSecure = useAxiosSecure();
 
-    const serviceCenters = useLoaderData();
+    const serviceCenters = useLoaderData() || [];
     const {
         register,
         handleSubmit,
@@ -20,10 +20,15 @@ const BeARider = () => {
     } = useForm();
 
 
-    const regions = [...new Set(serviceCenters.map((s) => s.region))];
-    const districts = serviceCenters
-        .filter((s) => s.region === selectedRegion)
-        .map((s) => s.district);
+    const regions = Array.isArray(serviceCenters)
+        ? [...new Set(serviceCenters.map(s => s.region))]
+        : [];
+
+    const districts = Array.isArray(serviceCenters)
+        ? serviceCenters
+            .filter(s => s.region === selectedRegion)
+            .map(s => s.district)
+        : [];
 
     const onSubmit = async (data) => {
         const riderData = {

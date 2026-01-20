@@ -11,9 +11,9 @@ const logos = [amazon, amazon_vector, casio, moonstar, randstad, star]
 
 const ClientLogoMarquee = () => {
   return (
-    <section className="py-16">
+    <section className="py-16 px-2">
       {/* Section Title */}
-      <div className="text-center mb-10 px-4">
+      <div className="text-center mb-10 px-2">
         <h2 className="text-3xl font-bold mb-2">
           We've helped thousands of <span className="text-primary">sales teams</span>
         </h2>

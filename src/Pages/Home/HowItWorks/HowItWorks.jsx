@@ -30,8 +30,8 @@ const HowItWorks = () => {
     ];
 
     return (
-        <section className="py-12">
-            <div className="max-w-7xl mx-auto px-4">
+        <section className="py-12 mx-2">
+            <div className="max-w-7xl mx-auto">
                 <h2 className="text-3xl font-bold mb-8">
                     How it Works
                 </h2>

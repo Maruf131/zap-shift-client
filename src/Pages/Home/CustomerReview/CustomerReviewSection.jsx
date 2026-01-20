@@ -97,10 +97,10 @@ const CustomerReviewSection = () => {
 
 
     return (
-        <section className="py-20 mb-18 bg-gray-100 rounded-3xl">
-            <div className="container mx-auto text-center px-4">
+        <section className="py-20 mx-2 mb-18 bg-gray-100 rounded-3xl">
+            <div className="container mx-auto text-center px-2">
 
-                {/* TOP IMAGE */}
+                {/* TOP IMAGE */} 
                 <img
                     src={customer}
                     alt="section icon"

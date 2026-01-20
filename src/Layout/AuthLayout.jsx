@@ -12,6 +12,7 @@ const AuthLayout = () => {
             <div className="lg:hero-content flex-col lg:flex-row-reverse">
                 <div className='flex-1'>
                     <img
+                    className='w-full'
                         src={authImage}
                     />
                 </div>

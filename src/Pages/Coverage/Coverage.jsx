@@ -16,8 +16,8 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function Coverage() {
-    const serviceCenter = useLoaderData();
-    
+  const serviceCenter = useLoaderData() || [];
+
   const [search, setSearch] = useState("");
 
   return (
@@ -53,11 +53,11 @@ export default function Coverage() {
           />
 
           {/* District Markers */}
-          {serviceCenter.map((center, index) => (
+          {Array.isArray(serviceCenter) && serviceCenter.map((center, index) => (
             <Marker key={index} position={[center.latitude, center.longitude]}>
               <Popup>
                 <span className="font-semibold">{center.district}</span><br />
-                {center.covered_area.join(', ')}
+                {Array.isArray(center.covered_area) ? center.covered_area.join(', ') : ''}
               </Popup>
             </Marker>
           ))}

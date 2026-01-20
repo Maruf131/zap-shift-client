@@ -16,17 +16,33 @@ export default function SendParcel() {
         formState: { errors },
     } = useForm();
 
-    const serviceCenters = useLoaderData();
+    const loaderData = useLoaderData();
+    const serviceCenters = Array.isArray(loaderData)
+        ? loaderData
+        : Array.isArray(loaderData?.data)
+            ? loaderData.data
+            : [];
+
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const { logTracking } = useTrackingLogger();
 
-    const uniqueRegions = [...new Set(serviceCenters.map((w) => w.region))];
+    const uniqueRegions = [
+        ...new Set(
+            serviceCenters
+                .filter(w => w?.region)
+                .map(w => w.region)
+        ),
+    ];
 
-    const getDistrictByRegion = (region) =>
-        serviceCenters
-            .filter((w) => w.region === region)
-            .map((w) => w.district);
+
+    const getDistrictByRegion = (region) => {
+        if (!region) return [];
+        return serviceCenters
+            .filter(w => w?.region === region && w?.district)
+            .map(w => w.district);
+    };
+
 
     const parcelType = watch("parcelType");
     const senderRegion = watch("senderRegion");
@@ -152,7 +168,7 @@ export default function SendParcel() {
 
     // ===================== UI =====================
     return (
-        <div className="max-w-6xl mx-auto p-6">
+        <div className="max-w-6xl mx-auto py-4">
             <div className="mb-6 text-center">
                 <h1 className="text-3xl font-bold">Send a Parcel</h1>
                 <p className="text-gray-500">
@@ -222,17 +238,22 @@ export default function SendParcel() {
                             <input className="input input-bordered w-full" placeholder="Sender Name" {...register("senderName", { required: true })} />
                             <input className="input input-bordered w-full" placeholder="Sender Contact" {...register("senderContact", { required: true })} />
 
-                            <select className="select select-bordered w-full" {...register("senderRegion", { required: true })}>
+                            <select
+                                className="select select-bordered w-full"
+                                {...register("senderRegion", { required: true })}
+                            >
                                 <option value="">Select Region</option>
                                 {uniqueRegions.map((r) => (
-                                    <option key={r}>{r}</option>
+                                    <option key={r} value={r}>
+                                        {r}
+                                    </option>
                                 ))}
                             </select>
 
                             <select className="select select-bordered w-full" {...register("senderDistrict", { required: true })}>
                                 <option value="">Select District</option>
                                 {getDistrictByRegion(senderRegion)?.map((d) => (
-                                    <option key={d}>{d}</option>
+                                    <option key={d} value={d}>{d}</option>
                                 ))}
                             </select>
 
@@ -249,17 +270,23 @@ export default function SendParcel() {
                             <input className="input input-bordered w-full" placeholder="Receiver Name" {...register("receiverName", { required: true })} />
                             <input className="input input-bordered w-full" placeholder="Receiver Contact" {...register("receiverContact", { required: true })} />
 
-                            <select className="select select-bordered w-full" {...register("receiverRegion", { required: true })}>
+                            <select
+                                className="select select-bordered w-full"
+                                {...register("receiverRegion", { required: true })}
+                            >
                                 <option value="">Select Region</option>
                                 {uniqueRegions.map((r) => (
-                                    <option key={r}>{r}</option>
+                                    <option key={r} value={r}>
+                                        {r}
+                                    </option>
                                 ))}
                             </select>
+
 
                             <select className="select select-bordered w-full" {...register("receiverDistrict", { required: true })}>
                                 <option value="">Select District</option>
                                 {getDistrictByRegion(receiverRegion)?.map((d) => (
-                                    <option key={d}>{d}</option>
+                                    <option key={d} value={d}>{d}</option>
                                 ))}
                             </select>
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 const FrequentlyQuestion = () => {
     return (
-        <div className='flex flex-col space-y-2 mb-18 shadow-xl p-10 rounded-2xl'>
+        <div className='flex flex-col space-y-2 mb-18 shadow-xl p-4 rounded-2xl mx-2'>
             <div className='max-w-4xl mx-auto text-center'>
                 <h1 className='text-4xl font-bold'>Frequently Asked Question (FAQ)</h1>
                 <p className='text-gray-400 mt-4'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
